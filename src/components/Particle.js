@@ -6,7 +6,7 @@ export default class Particle {
     this.dx = config.dx;
     this.dy = config.dy;
     this.color = config.color;
-    this.radius = config.radius;
+    this.radius = this.base = config.radius;
     this.repulsion = config.repulsion;
   }
   distance = (x1, y1, x2, y2) => {
@@ -16,8 +16,8 @@ export default class Particle {
   update = (mouse) => {
     const angle = Math.atan2(this.x - mouse.x, this.y - mouse.y);
     const dist = this.repulsion / this.distance(mouse.x, mouse.y, this.x, this.y);
-    this.radius = ~~(Math.abs(dist) / 4);
-    this.x += (Math.sin(angle) * dist) + (this.dx - this.x);
-    this.y += (Math.cos(angle) * dist) + (this.dy - this.y);
+    this.radius = this.base + ~~(Math.abs(dist) / 4);
+    this.x += ((Math.sin(angle) * dist) + (this.dx - this.x)) * 0.02;
+    this.y += ((Math.cos(angle) * dist) + (this.dy - this.y)) * 0.02;
   };
 }

@@ -58,7 +58,7 @@ export default class Render {
           dx: i * this.grid + this.grid / 2,
           dy: k * this.grid + this.grid / 2,
           mouse: this.mouse,
-          radius: this.grid / 4,
+          radius: k * this.steps * 0.04,
           color: `hsl(${hue}, 100%, 50%)`,
           repulsion: 5000,
         });
