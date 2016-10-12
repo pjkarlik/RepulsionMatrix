@@ -10,14 +10,16 @@ export default class Particle {
     this.repulsion = config.repulsion;
   }
   distance = (x1, y1, x2, y2) => {
-    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    const distance = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     return distance;
   };
   update = (mouse) => {
     const angle = Math.atan2(this.x - mouse.x, this.y - mouse.y);
-    const dist = this.repulsion / this.distance(mouse.x, mouse.y, this.x, this.y);
-    this.radius = this.base + ~~(Math.abs(dist) / 4);
-    this.x += ((Math.sin(angle) * dist) + (this.dx - this.x)) * 0.02;
-    this.y += ((Math.cos(angle) * dist) + (this.dy - this.y)) * 0.02;
+    const baseDiff = this.distance(mouse.x, mouse.y, this.x, this.y);
+    const dist = this.repulsion / baseDiff;
+    const size = ~~(Math.round(this.base + dist * 0.25));
+    this.radius = size > 100 ? this.radius : size;
+    this.x += ((Math.sin(angle) * dist) + (this.dx - this.x)) * 0.05;
+    this.y += ((Math.cos(angle) * dist) + (this.dy - this.y)) * 0.05;
   };
 }

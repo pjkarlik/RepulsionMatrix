@@ -69,10 +69,20 @@ export default class Render {
 
   draw = (config) => {
     this.surface.beginPath();
-    this.surface.lineWidth = 0.5;
-    this.surface.strokeStyle = config.color;
+    // this.surface.lineWidth = 0.5;
+    this.surface.fillStyle = config.color;
     this.surface.arc(config.x, config.y, config.radius, 0, 2 * Math.PI, false);
-    this.surface.stroke();
+    this.surface.fill();
+  };
+
+  compare = (a, b) => {
+    if (a.radius < b.radius) {
+      return -1;
+    }
+    if (a.radius > b.radius) {
+      return 1;
+    }
+    return 0;
   };
 
   renderLoop = () => {
@@ -80,14 +90,8 @@ export default class Render {
     this.surface.fillStyle = `rgba(75,75,75,${0.2})`;
     this.surface.fillRect(0, 0, this.width, this.height);
 
+    // Draw pointer dot
     const mouse = this.mouse.pointer();
-
-    for (let x = 0; x < this.points.length; x++) {
-      const point = this.points[x];
-      point.update(mouse);
-      this.draw(point);
-    }
-
     const hue = (mouse.x / this.grid) * this.steps + (mouse.y / this.grid) * this.steps;
     this.draw({
       x: mouse.x,
@@ -95,6 +99,18 @@ export default class Render {
       color: `hsl(${hue}, 100%, 50%)`,
       radius: 35,
     });
+    // Sort Array for Highest to lowest
+    const pointArray = this.points.sort((a, b) => {
+      const check = this.compare(a, b);
+      return check;
+    });
+    // Draw Array
+    for (let x = 0; x < this.points.length; x++) {
+      const point = pointArray[x];
+      point.update(mouse);
+      this.draw(point);
+    }
+
     this.animation = window.requestAnimationFrame(this.renderLoop);
   };
 }
