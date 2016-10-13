@@ -18,7 +18,7 @@ export default class Particle {
     const baseDiff = this.distance(mouse.x, mouse.y, this.x, this.y);
     const dist = this.repulsion / baseDiff;
     const size = ~~(Math.round(this.base + dist * 0.25));
-    this.radius = size > 100 ? this.radius : size;
+    this.radius = size > 70 ? this.radius : size;
     this.x += ((Math.sin(angle) * dist) + (this.dx - this.x)) * 0.05;
     this.y += ((Math.cos(angle) * dist) + (this.dy - this.y)) * 0.05;
   };

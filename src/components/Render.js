@@ -60,17 +60,12 @@ export default class Render {
     this.surface.arc(config.x, config.y, config.radius, 0, 2 * Math.PI, false);
     this.surface.fill();
   };
-
+  /* eslint-disable no-nested-ternary */
   compare = (a, b) => {
-    if (a.radius < b.radius) {
-      return -1;
-    }
-    if (a.radius > b.radius) {
-      return 1;
-    }
-    return 0;
+    const result = (a.radius < b.radius) ? -1 : (a.radius > b.radius) ? 1 : 0;
+    return result;
   };
-
+  /* eslint-enable no-nested-ternary */
   renderLoop = () => {
     this.surface.globalCompositeOperation = 'source-over';
     this.surface.fillStyle = `rgba(75,75,75,${0.2})`;
