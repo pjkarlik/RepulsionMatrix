@@ -11,6 +11,7 @@ export default class Render {
     this.surface = this.viewport.surface;
     this.canvas = this.viewport.canvas;
     this.grid = 30;
+    this.repulsion = 9000;
     this.rows = ~~(this.viewport.width / this.grid);
     this.cols = ~~(this.viewport.height / this.grid);
     this.steps = 360 / this.rows;
@@ -33,10 +34,6 @@ export default class Render {
     this.createPoints();
     this.renderLoop();
   };
-  distance = (x1, y1, x2, y2) => {
-    const distance = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-    return distance;
-  };
   getHue = (i, k) => {
     const hue = (i * this.steps + k * this.steps / this.grid) * 0.8;
     return hue;
@@ -53,7 +50,7 @@ export default class Render {
           mouse: this.mouse,
           radius: this.grid * 0.03,
           color: hue,
-          repulsion: 5000,
+          repulsion: this.repulsion,
         });
         this.points.push(point);
       }
@@ -62,7 +59,7 @@ export default class Render {
 
   draw = (config) => {
     this.surface.beginPath();
-    const hsRadius = config.radius * 0.1;
+    const hsRadius = config.radius * 0.3;
     const lightness = ~~(60 - (50 / hsRadius));
     const saturation = ~~(100 - ~~((100 / hsRadius) * 0.01));
     this.surface.fillStyle = `hsl(${config.color}, ${saturation}%, ${lightness}% )`;
