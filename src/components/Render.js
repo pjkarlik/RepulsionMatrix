@@ -1,14 +1,18 @@
 import Particle from './Particle';
 import Mouse from './Mouse';
+import Canvas from './Canvas';
 // Render Class //
 export default class Render {
   constructor(element) {
     this.element = element;
     this.mouse = new Mouse();
-    this.canvas = this.createCanvas('canvas');
+    this.can = new Canvas();
+    this.viewport = this.can.createCanvas('canvas');
+    this.surface = this.viewport.surface;
+    this.canvas = this.viewport.canvas;
     this.grid = 30;
-    this.rows = ~~(this.width / this.grid);
-    this.cols = ~~(this.height / this.grid);
+    this.rows = ~~(this.viewport.width / this.grid);
+    this.cols = ~~(this.viewport.height / this.grid);
     this.steps = 360 / this.rows;
     this.points = [];
     this.baseHue = 0;
@@ -17,32 +21,14 @@ export default class Render {
     this.renderLoop();
   }
 
-  setViewport = (element) => {
-    const canvasElement = element;
-    const width = ~~(document.documentElement.clientWidth, window.innerWidth || 0);
-    const height = ~~(document.documentElement.clientHeight, window.innerHeight || 0);
-    this.width = width;
-    this.height = height;
-    canvasElement.width = this.width;
-    canvasElement.height = this.height;
-  };
-
-  createCanvas = (name) => {
-    const canvasElement = document.createElement('canvas');
-    canvasElement.id = name;
-    this.setViewport(canvasElement);
-    this.element.appendChild(canvasElement);
-    this.surface = canvasElement.getContext('2d');
-    this.surface.scale(1, 1);
-    return canvasElement;
-  };
-
   resetCanvas = () => {
     window.cancelAnimationFrame(this.animation);
     this.points = [];
-    this.setViewport(this.canvas);
-    this.rows = ~~(this.width / this.grid);
-    this.cols = ~~(this.height / this.grid);
+    this.viewport = this.can.setViewport(this.canvas);
+    this.surface = this.viewport.surface;
+    this.canvas = this.viewport.canvas;
+    this.rows = ~~(this.viewport.width / this.grid);
+    this.cols = ~~(this.viewport.height / this.grid);
     this.steps = 360 / this.rows;
     this.createPoints();
     this.renderLoop();
@@ -88,7 +74,7 @@ export default class Render {
   renderLoop = () => {
     this.surface.globalCompositeOperation = 'source-over';
     this.surface.fillStyle = `rgba(75,75,75,${0.2})`;
-    this.surface.fillRect(0, 0, this.width, this.height);
+    this.surface.fillRect(0, 0, this.viewport.width, this.viewport.height);
 
     // Draw pointer dot
     const mouse = this.mouse.pointer();

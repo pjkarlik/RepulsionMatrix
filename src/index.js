@@ -55,7 +55,6 @@ const target = document.createElement('div');
 target.className = 'wrapper';
 
 window.onload = () => {
-  document.body.appendChild(target);
-  const demo = new Render(target, 800, 400);
+  const demo = new Render(document.body, 800, 400);
   return demo;
 };
