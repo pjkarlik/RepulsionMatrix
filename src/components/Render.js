@@ -33,19 +33,26 @@ export default class Render {
     this.createPoints();
     this.renderLoop();
   };
-
+  distance = (x1, y1, x2, y2) => {
+    const distance = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    return distance;
+  };
+  getHue = (i, k) => {
+    const hue = (i * this.steps + k * this.steps / this.grid) * 0.8;
+    return hue;
+  }
   createPoints = () => {
     for (let i = 0; i < this.rows; i++) {
       for (let k = 0; k < this.cols; k++) {
-        const hue = i * this.steps + k * this.steps;
+        const hue = this.getHue(i, k);
         const point = new Particle({
           x: i * this.grid + this.grid / 2,
           y: k * this.grid + this.grid / 2,
           dx: i * this.grid + this.grid / 2,
           dy: k * this.grid + this.grid / 2,
           mouse: this.mouse,
-          radius: k * this.steps * 0.04,
-          color: `hsl(${hue}, 100%, 50%)`,
+          radius: this.grid * 0.03,
+          color: hue,
           repulsion: 5000,
         });
         this.points.push(point);
@@ -55,8 +62,10 @@ export default class Render {
 
   draw = (config) => {
     this.surface.beginPath();
-    // this.surface.lineWidth = 0.5;
-    this.surface.fillStyle = config.color;
+    const hsRadius = config.radius * 0.1;
+    const lightness = ~~(60 - (50 / hsRadius));
+    const saturation = ~~(100 - ~~((100 / hsRadius) * 0.01));
+    this.surface.fillStyle = `hsl(${config.color}, ${saturation}%, ${lightness}% )`;
     this.surface.arc(config.x, config.y, config.radius, 0, 2 * Math.PI, false);
     this.surface.fill();
   };
@@ -68,17 +77,21 @@ export default class Render {
   /* eslint-enable no-nested-ternary */
   renderLoop = () => {
     this.surface.globalCompositeOperation = 'source-over';
-    this.surface.fillStyle = `rgba(75,75,75,${0.2})`;
+    this.surface.fillStyle = `rgba(15,15,15,${0.2})`;
     this.surface.fillRect(0, 0, this.viewport.width, this.viewport.height);
 
     // Draw pointer dot
     const mouse = this.mouse.pointer();
-    const hue = (mouse.x / this.grid) * this.steps + (mouse.y / this.grid) * this.steps;
+    const normalize = {
+      i: ~~(mouse.x / this.grid),
+      k: ~~(mouse.y / this.grid),
+    };
+    const hue = this.getHue(normalize.i, normalize.k);
     this.draw({
       x: mouse.x,
       y: mouse.y,
-      color: `hsl(${hue}, 100%, 50%)`,
-      radius: 35,
+      color: hue,
+      radius: 55,
     });
     // Sort Array for Highest to lowest
     const pointArray = this.points.sort((a, b) => {

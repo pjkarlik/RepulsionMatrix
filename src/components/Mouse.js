@@ -10,7 +10,7 @@ export default class Mouse {
     this.events.forEach((eventName) => {
       this.element.addEventListener(eventName, this.getCoordinates);
     });
-    this.element.addEventListener('mouseout', this.reset);
+    // this.element.addEventListener('mouseout', this.reset);
   }
   reset = () => {
     this.x = -200;
