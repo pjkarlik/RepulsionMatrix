@@ -50,7 +50,7 @@ export default class Render {
           mouse: this.mouse,
           radius: this.grid * 0.03,
           color: hue,
-          repulsion: this.repulsion,
+          repulsion: this.repulsion
         });
         this.points.push(point);
       }
@@ -81,14 +81,14 @@ export default class Render {
     const mouse = this.mouse.pointer();
     const normalize = {
       i: ~~(mouse.x / this.grid),
-      k: ~~(mouse.y / this.grid),
+      k: ~~(mouse.y / this.grid)
     };
     const hue = this.getHue(normalize.i, normalize.k);
     this.draw({
       x: mouse.x,
       y: mouse.y,
       color: hue,
-      radius: 55,
+      radius: 55
     });
     // Sort Array for Highest to lowest
     const pointArray = this.points.sort((a, b) => {

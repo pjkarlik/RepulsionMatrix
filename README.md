@@ -1,3 +1,6 @@
+![travis ci build](https://travis-ci.org/pjkarlik/RepulsionMatrix.svg?branch=master)
+![webpack2](https://img.shields.io/badge/webpack-2.0-brightgreen.svg) ![javascript](https://img.shields.io/badge/es6-bable-yellow.svg)
+
 # Repulsion Matrix
 
   WIP - mouse interacts with repulsion field matrix.
@@ -6,11 +9,11 @@
   * Initial Commit - Basic repulsion function.
 
 ## Run the example
-  Requires Node v6.2.1 or greater
+  Requires Node v7.0.0 or greater
 
 ```bash
-$ npm install
-$ npm run dev & open http://localhost:9090
+$ yarn install
+$ yarn run dev & open http://localhost:2020
 ```
 
 ## License
