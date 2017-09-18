@@ -3,7 +3,7 @@
 
 # Repulsion Matrix
 
-  WIP - mouse interacts with repulsion field matrix.
+  WIP - mouse interacts with repulsion field matrix. Trying to play with Fields, and user interactions.
 
 ## Change Log
   * Initial Commit - Basic repulsion function.
