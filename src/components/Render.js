@@ -73,10 +73,10 @@ export default class Render {
   };
   /* eslint-enable no-nested-ternary */
   renderLoop = () => {
-    this.surface.globalCompositeOperation = 'source-over';
-    this.surface.fillStyle = `rgba(15,15,15,${0.2})`;
-    this.surface.fillRect(0, 0, this.viewport.width, this.viewport.height);
-
+    // this.surface.globalCompositeOperation = 'source-over';
+    // this.surface.fillStyle = `rgba(15,15,15,${0.2})`;
+    // this.surface.fillRect(0, 0, this.viewport.width, this.viewport.height);
+    this.surface.clearRect(0, 0, this.canvas.width, this.canvas.height);
     // Draw pointer dot
     const mouse = this.mouse.pointer();
     const normalize = {

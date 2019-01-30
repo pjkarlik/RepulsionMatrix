@@ -10,18 +10,11 @@ export default class Mouse {
     this.events.forEach((eventName) => {
       this.element.addEventListener(eventName, this.getCoordinates);
     });
-    // this.element.addEventListener('mouseout', this.reset);
   }
-  reset = () => {
-    this.x = -200;
-    this.y = -200;
-  };
   getCoordinates(event) {
     event.preventDefault();
-    const x = event.pageX;
-    const y = event.pageY;
-    this.x = x;
-    this.y = y;
+    this.x = event.pageX;
+    this.y = event.pageY;
   }
   pointer() {
     return {

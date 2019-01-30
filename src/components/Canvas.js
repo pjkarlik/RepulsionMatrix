@@ -11,11 +11,9 @@ export default class Canvas {
     const height = ~~(document.documentElement.clientHeight, window.innerHeight || 0);
     this.width = width;
     this.height = height;
-    canvasElement.width = this.width;
-    canvasElement.height = this.height;
+    canvasElement.width = width;
+    canvasElement.height = height;
     const canvasObject = {
-      surface: this.surface,
-      canvas: canvasElement,
       width: this.width,
       height: this.height
     };
@@ -34,10 +32,10 @@ export default class Canvas {
     if (!document.getElementById(name)) {
       this.element.appendChild(canvasElement);
     }
-    this.surface = canvasElement.getContext('2d');
-    this.surface.scale(1, 1);
+    this.context = canvasElement.getContext('2d');
+    this.context.scale(1, 1);
     const canvasObject = {
-      surface: this.surface,
+      surface: this.context,
       canvas: canvasElement,
       width: this.width,
       height: this.height
